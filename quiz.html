@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f3f4f6;
+            padding: 2rem;
+        }
+
+        .carousel-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .carousel {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            background-color: #000;
+        }
+
+        .carousel-slide {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #prevBtn {
+            left: 1rem;
+        }
+
+        #nextBtn {
+            right: 1rem;
+        }
+
+        .dots-container {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            border: none;
+            padding: 0;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #111827;
+            font-size: 1.875rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <h1 class="title">Glass Work Gallery</h1>
+        <div class="carousel">
+            <div class="carousel-slide"></div>
+            <button id="prevBtn" class="carousel-btn" aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button id="nextBtn" class="carousel-btn" aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            <div class="dots-container"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = [
+                'https://images.unsplash.com/photo-1557433440-61c3b6ae9e52?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1548090284-e39cd95e85f8?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1577155848406-b53ebd277c72?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1590059297851-897af0aae8e2?auto=format&fit=crop&w=800&q=80',
+                'https://images.unsplash.com/photo-1587644574036-ec5dcd01e5c4?auto=format&fit=crop&w=800&q=80'
+            ];
+
+            const carouselSlide = document.querySelector('.carousel-slide');
+            const prevBtn = document.querySelector('#prevBtn');
+            const nextBtn = document.querySelector('#nextBtn');
+            const dotsContainer = document.querySelector('.dots-container');
+
+            let currentIndex = 0;
+
+            // Create and append image elements
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Glass work ${index + 1}`;
+                carouselSlide.appendChild(img);
+
+                // Create dot for each image
+                const dot = document.createElement('button');
+                dot.classList.add('dot');
+                dot.setAttribute('aria-label', `Go to image ${index + 1}`);
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            function updateCarousel() {
+                carouselSlide.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+
+            function goToNext() {
+                currentIndex = currentIndex >= images.length - 1 ? 0 : currentIndex + 1;
+                updateCarousel();
+            }
+
+            function goToPrev() {
+                currentIndex = currentIndex <= 0 ? images.length - 1 : currentIndex - 1;
+                updateCarousel();
+            }
+
+            // Event Listeners
+            nextBtn.addEventListener('click', goToNext);
+            prevBtn.addEventListener('click', goToPrev);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') goToPrev();
+                if (e.key === 'ArrowRight') goToNext();
+            });
+
+            // Initialize carousel
+            updateCarousel();
+
+            // Auto-advance every 5 seconds
+            setInterval(goToNext, 5000);
+        });
+    </script>
+</body>
+</html>

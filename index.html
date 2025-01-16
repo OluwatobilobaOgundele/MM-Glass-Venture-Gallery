@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM Glass Works</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="logo.svg" alt="MM Glass Venture Logo" class="logo">
+        </div>
+        <h1>MM Glass Venture</h1>
+        <p>Crafting Excellence in Glass</p>
+    </header>
+    <main>
+        <h2>Featured Works</h2>
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <!-- Images will be dynamically added here -->
+            </div>
+            <button id="prevBtn" type="button" aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <button id="nextBtn" type="button" aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+            <div class="dots-container"></div>
+        </div>
+    </main>
+    <script src="carousel.js"></script>
+</body>
+</html>
