@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         './asset/2.jpg',
         './asset/0.jpg',
         './asset/3.jpg',
-        './asset/25jpg',
+        './asset/25.jpg',
         './asset/5.jpg',
         './asset/6.jpg',
         './asset/7.jpg',
