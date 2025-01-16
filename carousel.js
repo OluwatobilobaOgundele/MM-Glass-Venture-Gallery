@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const images = [
+ const images = [
         './asset/01.jpg',
         './asset/00.jpg',
         './asset/40.jpg',
@@ -159,4 +158,3 @@ document.addEventListener('DOMContentLoaded', () => {
     carouselSlide.addEventListener('mouseleave', () => {
         autoAdvance = setInterval(goToNext, 5000);
     });
-});
